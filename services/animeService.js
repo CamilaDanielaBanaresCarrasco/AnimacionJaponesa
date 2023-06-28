@@ -13,7 +13,7 @@ const leerTodo = () => {
 // Función para leer un anime por su id
 const leerPorId = (id) => {
   const animes = leerTodo(); 
-  return animes[id] || null; // Devuelve el anime correspondiente al id o null si no se encuentra
+  return animes[id] || "lamentablemente el id no existe"; 
 };
 
 // Función para leer un anime por su nombre
@@ -82,7 +82,7 @@ agregarAnime(anime2);
 
 console.log(leerPorNombre("Attack on Titan"));
 
-console.log(leerPorId("1"));
+console.log(leerPorId(1));
 
 actualizarAnime("2", new Anime("Attack on Titan", "Shonen", "2013", "Hajime Isayama Actualizado"));
 
@@ -91,3 +91,9 @@ eliminarAnime("1"); // tendria que ser nulo ya que lo elimine arriba
 console.log("╭─────‧°.ʕ•́ᴥ•̀ʔ.°‧─────≪");
 console.log("♡ Camila Bañares Carrasco");
 console.log("╰─────‧°.ʕ•́ᴥ•̀ʔ.°‧─────⌲")
+
+
+module.exports = {
+  leerTodo: leerTodo,
+  // otras funciones del servicio
+};

@@ -1,18 +1,17 @@
 const express = require('express');
 const animeService = require('./services/animeService');
 
-const app = express();
+const app = express(); //para utilizar express
 
 app.use(express.static('public'));
 
-const animes = animeService.leerTodo('./archivo/anime.json');
-
-animes.forEach((anime) => {
-  console.log('Nombre: ' + anime.nombre);
-  console.log('Género: ' + anime.genero);
-  console.log('Año: ' + anime.año);
-  console.log('Autor: ' + anime.autor);
-  console.log('-------------------------');
-});
+//leerTodo()
+const animes = animeService.leerTodo();
+console.log(animes); // Tengo los datos de animes
+ 
 
 app.listen(8080);
+
+console.log("╭─────‧°.ʕ•́ᴥ•̀ʔ.°‧─────≪");
+console.log("♡ Camila Bañares Carrasco");
+console.log("╰─────‧°.ʕ•́ᴥ•̀ʔ.°‧─────⌲");
