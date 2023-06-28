@@ -10,6 +10,13 @@ const leerTodo = () => {
   return animes;
 };
 
+
+const leerTodoComoArreglo = () =>{
+  const animes = leerTodo();
+  const animesArray = Object.values(animes);
+  return animesArray;
+}
+
 // Función para leer un anime por su id
 const leerPorId = (id) => {
   const animes = leerTodo(); 
@@ -77,23 +84,23 @@ const guardarAnimes = (animes) => {
 const anime1 = new Anime("One Piece", "Shonen", "1999", "Eiichiro Oda");
 const anime2 = new Anime("Attack on Titan", "Shonen", "2013", "Hajime Isayama");
 
-agregarAnime(anime1);
-agregarAnime(anime2);
+/* agregarAnime(anime1);
+agregarAnime(anime2); */
 
 console.log(leerPorNombre("Attack on Titan"));
 
 console.log(leerPorId(1));
 
-actualizarAnime("2", new Anime("Attack on Titan", "Shonen", "2013", "Hajime Isayama Actualizado"));
-
-eliminarAnime("1"); // tendria que ser nulo ya que lo elimine arriba
-
+/* actualizarAnime("2", new Anime("Attack on Titan", "Shonen", "2013", "Hajime Isayama Actualizado"));
+ */
+/* eliminarAnime("1"); // tendria que ser nulo ya que lo elimine arriba
+ */
 console.log("╭─────‧°.ʕ•́ᴥ•̀ʔ.°‧─────≪");
 console.log("♡ Camila Bañares Carrasco");
 console.log("╰─────‧°.ʕ•́ᴥ•̀ʔ.°‧─────⌲")
 
 
 module.exports = {
-  leerTodo: leerTodo,
+  leerTodoComoArreglo: leerTodoComoArreglo,
   // otras funciones del servicio
 };

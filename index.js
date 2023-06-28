@@ -3,11 +3,23 @@ const animeService = require('./services/animeService');
 
 const app = express(); //para utilizar express
 
-app.use(express.static('public'));
+//app.use(express.static('public'));
+
+app.set('view engine', 'hbs');
+
 
 //leerTodo()
-const animes = animeService.leerTodo();
-console.log(animes); // Tengo los datos de animes
+const animes = animeService.leerTodoComoArreglo();
+console.log(animes) //animes en un arreglo
+
+app.get('/', (req,res) =>{
+  res.render('anime',{
+    titulo: 'ANIMES',
+    arregloAnimes: animeService.leerTodoComoArreglo()
+  });
+
+});
+
  
 
 app.listen(8080);
