@@ -7,97 +7,128 @@ const archivoAnime = './archivo/anime.json';
 const leerTodo = () => {
   const data = fs.readFileSync(archivoAnime, 'utf-8');
   const animes = JSON.parse(data);
-  return animes;
+  return animes; //Retorno el jSon
 };
 
 
-const leerTodoComoArreglo = () =>{
-  const animes = leerTodo();
-  const animesArray = Object.values(animes);
-  return animesArray;
+const leerTodoComoArreglo = () => {
+  const animes = leerTodo();  // Obtenemos un objeto JSON 
+  const animesArray = Object.values(animes).map((anime, index) => {
+    anime.id = index + 1;  // Asignamos un número de identificación a cada anime en base a su posición en la lista
+    return anime;  // Devolvemos el anime modificado para construir un nuevo arreglo
+  });
+  console.log(animesArray);  // Imprimimos el arreglo de animes con sus identificaciones
+  return animesArray;  // Devolvemos el arreglo de animes modificado
 }
 
-// Función para leer un anime por su id
-const leerPorId = (id) => {
-  const animes = leerTodo(); 
-  return animes[id] || "lamentablemente el id no existe"; 
+//leerTodoComoArreglo();  // Llamamos a la función
+
+
+const leerAnimePorId = (id) => {
+  const animes = leerTodoComoArreglo();
+  const animeEncontrado = animes.find((anime) => anime.id === id);
+  return animeEncontrado;
 };
 
-// Función para leer un anime por su nombre
-const leerPorNombre = (nombre) => {
-    const animes = leerTodo();
-    let animeEncontrado = null;
-  
-    // Obtenemos un array con los valores del objeto animes
-    const animesArray = Object.values(animes);
-  
-    // Iteramos sobre cada anime en el array
-    animesArray.forEach((anime) => {
-      // Verificamos si el nombre del anime coincide (ignorando mayúsculas/minúsculas)
-      if (anime.nombre.toLowerCase() === nombre.toLowerCase()) {
-        animeEncontrado = anime; // Asignamos el anime encontrado
-      }
-    });
-  
-    return animeEncontrado; // Devuelve el anime encontrado o null si no se encuentra
-  };
 
-// Función para agregar un nuevo anime al archivo
-const agregarAnime = (anime) => {
-  const animes = leerTodo();
-  const ids = Object.keys(animes);
-  const id = (ids.length > 0) ? (parseInt(ids[ids.length - 1]) + 1).toString() : '1';
-  animes[id] = anime; // Asignamos el nuevo anime al objeto animes con el nuevo id
-  guardarAnimes(animes);
+const leerAnimePorNombre = (nombre) => {
+  const animes = leerTodoComoArreglo();
+  const animeEncontrado = animes.find((anime) => anime.nombre.toLowerCase() === nombre.toLowerCase());
+  return animeEncontrado;
 };
 
-// Función para actualizar un anime existente
-const actualizarAnime = (id, animeActualizado) => {
-  const animes = leerTodo();
-  if (animes.hasOwnProperty(id)) {
-    animes[id] = animeActualizado; // Actualizamos el anime existente con los nuevos datos
-    guardarAnimes(animes);
-    return true; // Indica que la actualización se realizó con éxito
+const eliminarAnimePorId = (id) => {
+  const animes = leerTodoComoArreglo();
+  const indice = animes.findIndex((anime) => anime.id === id);
+  console.log("-----"+indice)
+  
+  if (indice !== -1) {
+    animes.splice(indice, 1);
+    return animes;
   }
-  return false; // Indica que el anime no existe, no se pudo actualizar
+  
+  return null;
 };
 
-// Función para eliminar un anime por su id
-const eliminarAnime = (id) => {
-  const animes = leerTodo();
-  if (animes.hasOwnProperty(id)) {
-    delete animes[id]; // Eliminamos el anime del objeto animes
-    guardarAnimes(animes);
-    return true; // Indica que la eliminación se realizó con éxito
+const eliminarAnimePorNombre = (nombre) => {
+  const animes = leerTodoComoArreglo();
+  const indice = animes.findIndex((anime) => anime.nombre.toLowerCase() === nombre.toLowerCase());
+  
+  if (indice !== -1) {
+    animes.splice(indice, 1);
+    return animes;
   }
-  return false; // Indica que el anime no existe, no se pudo eliminar
+  
+  return null;
 };
 
-// Función para guardar los animes en el archivo
-const guardarAnimes = (animes) => {
-  const data = JSON.stringify(animes, null, 2);
-  fs.writeFileSync(archivoAnime, data, 'utf-8');
+
+const actualizarAnimePorId = (id, animeActualizado) => {
+  const animes = leerTodoComoArreglo();
+  const indice = animes.findIndex((anime) => anime.id === id);
+
+  if (indice !== -1) {
+    animes[indice] = { ...animes[indice], ...animeActualizado };
+    return animes[indice];
+  }
+
+  return null;
 };
 
-// Ejemplo de uso:
 
-const anime1 = new Anime("One Piece", "Shonen", "1999", "Eiichiro Oda");
-const anime2 = new Anime("Attack on Titan", "Shonen", "2013", "Hajime Isayama");
 
-/* agregarAnime(anime1);
-agregarAnime(anime2); */
+const actualizarAnimePorNombre = (nombre, animeActualizado) => {
+  const animes = leerTodoComoArreglo();
+  const indice = animes.findIndex(
+    (anime) => anime.nombre.toLowerCase() === nombre.toLowerCase()
+  );
 
-console.log(leerPorNombre("Attack on Titan"));
+  if (indice !== -1) {
+    animes[indice] = { ...animes[indice], ...animeActualizado };
+    return animes[indice];
+  }
 
-console.log(leerPorId(1));
+  return null;
+};
 
-/* actualizarAnime("2", new Anime("Attack on Titan", "Shonen", "2013", "Hajime Isayama Actualizado"));
- */
-/* eliminarAnime("1"); // tendria que ser nulo ya que lo elimine arriba
- */
-console.log("╭─────‧°.ʕ•́ᴥ•̀ʔ.°‧─────≪");
-console.log("♡ Camila Bañares Carrasco");
-console.log("╰─────‧°.ʕ•́ᴥ•̀ʔ.°‧─────⌲")
+// PRUEBAS
+
+console.log("---------------MUESTRA DE Leer POR ID------------------------")
+
+console.log(`Leer por id: ${JSON.stringify(leerAnimePorId(1), null, 1)}`);
+console.log("---------------MUESTRA DE Leer POR Nombre------------------------")
+console.log(`Leer por Nombre: ${JSON.stringify(leerAnimePorNombre("Akira"), null, 1)}`);
+const animeEliminado = JSON.stringify(eliminarAnimePorId(2),null,1);
+console.log("---------------MUESTRA DE ELIMINAR POR ID------------------------")
+console.log("anime eliminado con el id 2 , aqui se muestra el nuevo arreglo"+ animeEliminado );
+const animeEliminadoPorNombre = JSON.stringify(eliminarAnimePorNombre("Neon Genesis Evangelion"),null,1);
+console.log("---------------MUESTRA DE ELIMINAR POR NOMBRE------------------------")
+console.log("anime eliminado por nombre 'Neon Genesis Evangelion' , aqui se muestra el nuevo arreglo "+ animeEliminadoPorNombre );
+
+const animeActualizado = {
+  nombre: "Dragon Ball Z",
+  genero: "Shonen",
+  año: "1989",
+  autor: "Akira Toriyama",
+};
+
+const animeActualizadoPorId = actualizarAnimePorId(2, animeActualizado);
+console.log(`Anime actualizado con el id 2, aquí se muestra el anime actualizado: ${JSON.stringify(animeActualizadoPorId,null,1)}`);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 module.exports = {
