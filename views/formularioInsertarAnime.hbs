@@ -12,30 +12,28 @@
 
 
     <div class="container">
-        <H1>Formulario Anime</H1>
-        <form action="/insertarAnime" method="get">
-            <div class="mb-3">
-                <label for="txtNombre" class="form-label">Nombre</label>
-                <input type="text" name="txtNombre" class="form-control" id="txtNombre">
-            </div>
-            <div class="mb-3">
-                <label for="txtGenero" class="form-label">Genero</label>
-                <input type="text" name="txtGenero" class="form-control" id="txtGenero">
-            </div>
-            <div class="mb-3">
-                <label for="txtanio" class="form-label">Año</label>
-                <input type="text" name="txtanio" class="form-control" id="txtanio">
-            </div>
-            <div class="mb-3">
-                <label for="txtAutor" class="form-label">Autor</label>
-                <input type="text" name="txtAutor" class="form-control" id="txtAutor">
-            </div>
-            
-
-            
-            <button type="submit" class="btn btn-primary">Insertar Anime</button>
-        </form>
+  <h1>Formulario Anime</h1>
+  <form action="/insertarAnime" method="get" onsubmit="return validarFormulario()">
+    <div class="mb-3">
+      <label for="txtNombre" class="form-label">Nombre</label>
+      <input type="text" name="txtNombre" class="form-control" id="txtNombre" required>
     </div>
+    <div class="mb-3">
+      <label for="txtGenero" class="form-label">Género</label>
+      <input type="text" name="txtGenero" class="form-control" id="txtGenero" required>
+    </div>
+    <div class="mb-3">
+      <label for="txtanio" class="form-label">Año</label>
+      <input type="number" name="txtanio" class="form-control" id="txtanio" required>
+    </div>
+    <div class="mb-3">
+      <label for="txtAutor" class="form-label">Autor</label>
+      <input type="text" name="txtAutor" class="form-control" id="txtAutor" required>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Insertar Anime</button>
+  </form>
+</div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
@@ -46,3 +44,28 @@
 </body>
 
 </html>
+
+<script>
+  function validarFormulario() {
+    const nombre = document.getElementById('txtNombre').value.trim();
+    const genero = document.getElementById('txtGenero').value.trim();
+    const anio = document.getElementById('txtanio').value.trim();
+    const autor = document.getElementById('txtAutor').value.trim();
+    
+    if (nombre === '' || genero === '' || anio === '' || autor === '') {
+      alert('Todos los campos son obligatorios');
+      return false;
+    }
+
+    if (!esNumero(anio)) {
+      alert('El campo "Año" debe ser un número válido');
+      return false;
+    }
+
+    return true;
+  }
+
+  function esNumero(valor) {
+    return !isNaN(valor) && isFinite(valor);
+  }
+</script>

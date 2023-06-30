@@ -36,7 +36,7 @@ const leerAnimePorNombre = (nombre) => {
   return animeEncontrado;
 };
 
-const eliminarAnimePorId = (id) => {
+/* const eliminarAnimePorId = (id) => {
   const animes = leerTodoComoArreglo();
   const indice = animes.findIndex((anime) => anime.id === id);
   console.log("-----"+indice)
@@ -47,7 +47,7 @@ const eliminarAnimePorId = (id) => {
   }
   
   return null;
-};
+}; */
 
 const eliminarAnimePorNombre = (nombre) => {
   const animes = leerTodoComoArreglo();
@@ -128,6 +128,18 @@ const insertarAnime = (anime) => {
 };
 
 
+const eliminarAnimePorId = (id) => {
+  let todosLosAnimes = leerTodoComoArreglo();
+
+  // Filtrar el arreglo para obtener todos los animes excepto el que tiene el ID proporcionado
+  todosLosAnimes = todosLosAnimes.filter((anime) => anime.id !== id);
+
+  // Guardar el arreglo actualizado en el archivo
+  fs.writeFileSync(archivoAnime, JSON.stringify(todosLosAnimes, null, 2), 'utf-8');
+
+  console.log("Anime eliminado. ID:", id);
+};
+
 
 
 
@@ -144,6 +156,7 @@ const insertarAnime = (anime) => {
 module.exports = {
   leerTodoComoArreglo: leerTodoComoArreglo,
   insertarAnime:insertarAnime,
-  leerTodo: leerTodo
+  leerTodo: leerTodo,
+  eliminarAnimePorId:eliminarAnimePorId
   // otras funciones del servicio
 };

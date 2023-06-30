@@ -21,14 +21,14 @@ app.get('/', (req,res) =>{
 
 });
 
-
+//INGRESO AL FORMULARIO formularioInsertarAnime
 app.get('/formularioInsertarAnime', (req, res) => {
   res.render('formularioInsertarAnime');
 });
 
 
 
-
+// insertar un anime al JSON
 app.get('/insertarAnime', (req, res) => {
     //solicito los datos
     const nombre = req.query.txtNombre;
@@ -44,12 +44,17 @@ app.get('/insertarAnime', (req, res) => {
     const anime = new Anime(nombre, txtGenero, txtanio,txtAutor);
     //Envio el objeto al metodo 
     animeService.insertarAnime(anime);
-    //renderizado de los datos
+    //renderizado a la pagina anime, cargando los datos nuevamente
     res.render('anime',{
       titulo: 'ANIMES',
       arregloAnimes: animeService.leerTodoComoArreglo() // Aqui tengo el arreglo de animes
     });
   });
+
+
+ 
+
+
 
  
 
