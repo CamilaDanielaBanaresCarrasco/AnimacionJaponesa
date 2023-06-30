@@ -1,5 +1,6 @@
 const express = require('express');
 const animeService = require('./services/animeService');
+const Anime = require('./models/anime');
 
 const app = express(); //para utilizar express
 
@@ -29,13 +30,26 @@ app.get('/formularioInsertarAnime', (req, res) => {
 
 
 app.get('/insertarAnime', (req, res) => {
-  console.log(req.query.txtIdentificador, req.query.txtNombreDeCompania, req.query.txtNombreDeContacto);
-  // Falta la lógica de programación
-  res.render('anime',{
-    titulo: 'ANIMES',
-    arregloAnimes: animeService.leerTodoComoArreglo() // Aqui tengo el arreglo de animes
+    //solicito los datos
+    const nombre = req.query.txtNombre;
+    const txtGenero = req.query.txtGenero;
+    const txtanio = req.query.txtanio;
+    const txtAutor = req.query.txtAutor;
+   //Compruebo 
+    console.log("Aqui está el nombre "+ nombre)
+    console.log("Aqui está el nombre "+ txtGenero)
+    console.log("Aqui está el nombre "+ txtanio)
+    console.log("Aqui está el nombre "+ txtAutor)
+    // Creo un objeto con los datos
+    const anime = new Anime(nombre, txtGenero, txtanio,txtAutor);
+    //Envio el objeto al metodo 
+    animeService.insertarAnime(anime);
+    //renderizado de los datos
+    res.render('anime',{
+      titulo: 'ANIMES',
+      arregloAnimes: animeService.leerTodoComoArreglo() // Aqui tengo el arreglo de animes
+    });
   });
-});
 
  
 

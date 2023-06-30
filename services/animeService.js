@@ -10,7 +10,7 @@ const leerTodo = () => {
   return animes; //Retorno el jSon
 };
 
-
+//Funcion para tranformar los datos en un arreglo y devolver un arreglo
 const leerTodoComoArreglo = () => {
   const animes = leerTodo();  // Obtenemos un objeto JSON 
   const animesArray = Object.values(animes).map((anime, index) => {
@@ -21,7 +21,6 @@ const leerTodoComoArreglo = () => {
   return animesArray;  // Devolvemos el arreglo de animes modificado
 }
 
-//leerTodoComoArreglo();  // Llamamos a la función
 
 
 const leerAnimePorId = (id) => {
@@ -62,7 +61,6 @@ const eliminarAnimePorNombre = (nombre) => {
   return null;
 };
 
-
 const actualizarAnimePorId = (id, animeActualizado) => {
   const animes = leerTodoComoArreglo();
   const indice = animes.findIndex((anime) => anime.id === id);
@@ -74,8 +72,6 @@ const actualizarAnimePorId = (id, animeActualizado) => {
 
   return null;
 };
-
-
 
 const actualizarAnimePorNombre = (nombre, animeActualizado) => {
   const animes = leerTodoComoArreglo();
@@ -93,7 +89,7 @@ const actualizarAnimePorNombre = (nombre, animeActualizado) => {
 
 // PRUEBAS
 
-console.log("---------------MUESTRA DE Leer POR ID------------------------")
+/* console.log("---------------MUESTRA DE Leer POR ID------------------------")
 
 console.log(`Leer por id: ${JSON.stringify(leerAnimePorId(1), null, 1)}`);
 console.log("---------------MUESTRA DE Leer POR Nombre------------------------")
@@ -115,7 +111,21 @@ const animeActualizado = {
 const animeActualizadoPorId = actualizarAnimePorId(2, animeActualizado);
 console.log(`Anime actualizado con el id 2, aquí se muestra el anime actualizado: ${JSON.stringify(animeActualizadoPorId,null,1)}`);
 
+ */
 
+
+const insertarAnime = (anime) => {
+  const todosLosAnimes = leerTodoComoArreglo();
+
+  // Agregar el nuevo anime al arreglo
+  todosLosAnimes.push(anime);
+
+  // Guardar el arreglo actualizado en el archivo
+  fs.writeFileSync(archivoAnime, JSON.stringify(todosLosAnimes, null, 2), 'utf-8');
+
+  console.log("Aqui estan todos los animes", todosLosAnimes);
+  console.log("Datos del anime:", anime);
+};
 
 
 
@@ -133,5 +143,7 @@ console.log(`Anime actualizado con el id 2, aquí se muestra el anime actualizad
 
 module.exports = {
   leerTodoComoArreglo: leerTodoComoArreglo,
+  insertarAnime:insertarAnime,
+  leerTodo: leerTodo
   // otras funciones del servicio
 };
