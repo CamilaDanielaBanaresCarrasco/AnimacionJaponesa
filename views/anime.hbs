@@ -11,43 +11,50 @@
 <body class="border container my-5">
     <h1 class="d-flex justify-content-center">{{titulo}}</h1>
 
-      <div class="d-flex justify-content-center ">
+    <div class="d-flex justify-content-center ">
         <form action="/formularioInsertarAnime" method="get">
-            <button type="submit"  class="btn btn-primary">Insertar dato</button>
-            </form>
-      </div>
-     <br>
-     <div class="container border my-5">
-    <table class="table my-5">
-      <thead>
-        <tr>
-          <th scope="col">Nombre</th>
-          <th scope="col">Género</th>
-          <th scope="col">Año</th>
-          <th scope="col">Autor</th>
-          <th scope="col">Eliminar</th>
-          <th scope="col">Actualizar</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each arregloAnimes}}
-        <tr>
-          <td scope="row">{{this.nombre}}</td>
-          <td>{{this.genero}}</td>
-          <td>{{this.año}}</td>
-          <td>{{this.autor}}</td>
-       
-          <td> 
-            <button class="btn btn-danger">Eliminar</button>
-          </td>
-          <td> 
-            <button class="btn btn-link"><b>Actualizar</b></button>
-          </td>
-        </tr>
-        {{/each}}
-      </tbody> 
-    </table>
-  </div>
+            <button type="submit" class="btn btn-primary">Insertar dato</button>
+        </form>
+    </div>
+    <br>
+    <div class="container border my-5">
+        <table class="table my-5">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Género</th>
+                    <th scope="col">Año</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">Eliminar</th>
+                    <th scope="col">Actualizar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each arregloAnimes}}
+                <tr>
+                    <td scope="row">{{this.id}}</td>
+                    <td scope="row">{{this.nombre}}</td>
+                    <td>{{this.genero}}</td>
+                    <td>{{this.año}}</td>
+                    <td>{{this.autor}}</td>
+
+                    <td>
+                        <form action="/eliminarAnime/{{this.id}}" method="post">
+                          <button class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/actualizarAnime" method="post">
+                            <input type="hidden" name="id" value="{{this.id}}">
+                            <button class="btn btn-link"><b>Actualizar</b></button>
+                        </form>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
         integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
