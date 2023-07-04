@@ -69,16 +69,28 @@ const guardarAnimes = (animes) => {
 
 
 const actualizarAnimePorId = (id, animeActualizado) => {
+    console.log(`pasamos por aqui con el id ${id}`)
+    console.log(`pasamos por aqui con el anime ${animeActualizado}`)
     const animes = leerTodoComoArreglo();
-    const indice = animes.findIndex((anime) => anime.id === id);
-
+    console.log("leimos los animes")
+    const indice = animes.findIndex((anime) => anime.id === parseInt(id, 10));
+    console.log("comparamos los id")
     if (indice !== -1) {
-        animes[indice] = { ...animes[indice], ...animeActualizado };
-        return animes[indice];
+        console.log("entramos al if")
+      animes[indice] = { ...animes[indice], ...animeActualizado };
+      guardaAnimes(animes);
+      console.log("retornamos")
+      return animes[indice];
     }
-
+  
     return null;
-};
+  };
+  
+  const guardaAnimes = (animes) => {
+    console.log("guardamos los datos")
+    fs.writeFileSync(archivoAnime, JSON.stringify(animes, null, 2), 'utf-8');
+  };
+
 
 const actualizarAnimePorNombre = (nombre, animeActualizado) => {
     const animes = leerTodoComoArreglo();
@@ -113,5 +125,4 @@ module.exports = {
     leerTodo,
     eliminarAnimePorId,
     actualizarAnimePorId
-    // otras funciones del servicio
 };

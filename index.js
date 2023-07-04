@@ -5,6 +5,8 @@ const Anime = require('./models/anime');
 
 
 const app = express(); //para utilizar express
+app.set('view engine', 'hbs');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('view engine', 'hbs');
@@ -55,20 +57,40 @@ app.post('/insertarAnime', (req, res) => {
     res.redirect('/');
 });
 
-// Actualizar un anime por su ID
-app.post('/actualizarAnime', (req, res) => {
-    const id = req.body.id;
-    const animeActualizado = {
-        nombre: req.body.txtNombre,
-        genero: req.body.txtGenero,
-        año: req.body.txtanio,
-        autor: req.body.txtAutor
-    };
 
-    animeService.actualizarAnimePorId(id, animeActualizado);
 
-    res.redirect('/');
+app.post('/actualizarAnime/:id', (req, res) => {
+    const id = req.params.id;
+    console.log(`Este es el id ${id}`)
+    res.render('actualizarAnime', { id: id });
 });
+
+// Actualizar un anime por su ID
+ app.post('/actualizarAnimeporID', (req, res) => {
+    const id =  req.body.id;
+    const nombre =  req.body.txtNombre;
+    const genero = req.body.txtGenero;
+    const anio = req.body.txtanio;
+    const autor= req.body.txtAutor;
+    console.log(`id ${id} nombre ${nombre}, genero ${genero} ,anio ${anio}, autor ${autor}`)
+    const datosAnime = {
+        id: id,
+        nombre: nombre,
+        genero: genero,
+        anio: anio,
+        autor: autor
+      };
+    animeService.actualizarAnimePorId(id,datosAnime);
+
+     // Obtener la lista actualizada de animes
+    const arregloAnimes = animeService.leerTodoComoArreglo();
+  
+    // Renderizar la vista de la página principal con la lista actualizada
+    res.render('anime', {
+      titulo: 'ANIMES',
+      arregloAnimes: arregloAnimes
+    });
+}); 
 
 app.listen(8080, () => {
     console.log("Servidor escuchando en el puerto 8080");
