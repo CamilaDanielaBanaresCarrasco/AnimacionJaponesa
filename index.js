@@ -25,18 +25,18 @@ app.get('/formularioInsertarAnime', (req, res) => {
 
 // Eliminar un anime por su ID
 app.post('/eliminarAnime/:id', (req, res) => {
-  const id = req.params.id;
-  console.log("El anime eliminado es " + id);
-  animeService.eliminarAnimePorId(id);
-  
-  // Obtener la lista actualizada de animes
-  const arregloAnimes = animeService.leerTodoComoArreglo();
-  
-  // Renderizar la vista de la página principal con la lista actualizada
-  res.render('anime', {
-      titulo: 'ANIMES',
-      arregloAnimes: arregloAnimes
-  });
+    const id = req.params.id;
+    console.log("El anime eliminado es " + id);
+    animeService.eliminarAnimePorId(id);
+
+    // Obtener la lista actualizada de animes
+    const arregloAnimes = animeService.leerTodoComoArreglo();
+
+    // Renderizar la vista de la página principal con la lista actualizada
+    res.render('anime', {
+        titulo: 'ANIMES',
+        arregloAnimes: arregloAnimes
+    });
 });
 
 // Insertar un anime al JSON
@@ -58,20 +58,46 @@ app.post('/insertarAnime', (req, res) => {
 });
 
 
+app.post('/verAnime/:id', (req, res) => {
+    const id = req.params.id;
+    console.log(`Este es el id de ver anime ${id}`);
+
+    const anime = animeService.leerAnimePorId(id); // Obtener el anime por ID
+    console.log("este es el anime" + anime);
+
+    if (anime) {
+        animeService.guardarAnimeEnArchivo(anime); // Guardar el anime en el archivo usando el servicio
+        res.render('verAnime', {
+            titulo: 'ANIME',
+            anime: [anime] // Envolver el anime en un arreglo
+        });
+    } else {
+        // Manejar el caso en que no se encuentre el anime
+        res.render('verAnime', {
+            titulo: 'ANIME',
+            anime: null
+        });
+    }
+});
+
 
 app.post('/actualizarAnime/:id', (req, res) => {
     const id = req.params.id;
     console.log(`Este es el id ${id}`)
     res.render('actualizarAnime', { id: id });
+
 });
 
+
+
+
 // Actualizar un anime por su ID
- app.post('/actualizarAnimeporID', (req, res) => {
-    const id =  req.body.id;
-    const nombre =  req.body.txtNombre;
+app.post('/actualizarAnimeporID', (req, res) => {
+    const id = req.body.id;
+    const nombre = req.body.txtNombre;
     const genero = req.body.txtGenero;
     const anio = req.body.txtanio;
-    const autor= req.body.txtAutor;
+    const autor = req.body.txtAutor;
     console.log(`id ${id} nombre ${nombre}, genero ${genero} ,anio ${anio}, autor ${autor}`)
     const datosAnime = {
         id: id,
@@ -79,18 +105,18 @@ app.post('/actualizarAnime/:id', (req, res) => {
         genero: genero,
         anio: anio,
         autor: autor
-      };
-    animeService.actualizarAnimePorId(id,datosAnime);
+    };
+    animeService.actualizarAnimePorId(id, datosAnime);
 
-     // Obtener la lista actualizada de animes
+    // Obtener la lista actualizada de animes
     const arregloAnimes = animeService.leerTodoComoArreglo();
-  
+
     // Renderizar la vista de la página principal con la lista actualizada
     res.render('anime', {
-      titulo: 'ANIMES',
-      arregloAnimes: arregloAnimes
+        titulo: 'ANIMES',
+        arregloAnimes: arregloAnimes
     });
-}); 
+});
 
 app.listen(8080, () => {
     console.log("Servidor escuchando en el puerto 8080");

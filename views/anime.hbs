@@ -28,6 +28,8 @@
                     <th scope="col">Autor</th>
                     <th scope="col">Eliminar</th>
                     <th scope="col">Actualizar</th>
+                    <th scope="col">Ver Anime</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -41,13 +43,20 @@
 
                     <td>
                         <form action="/eliminarAnime/{{this.id}}" method="post">
-                          <button class="btn btn-danger"  id="btnEliminar">Eliminar</button>
+                            <button class="btn btn-danger" id="btnEliminar">Eliminar</button>
                         </form>
                     </td>
                     <td>
                         <form action="/actualizarAnime/{{this.id}}" method="post">
                             <input type="hidden" name="id" value="{{this.id}}">
                             <button class="btn btn-link"><b>Actualizar</b></button>
+                        </form>
+                    </td>
+
+                    <td>
+                        <form action="/verAnime/{{this.id}}" method="post">
+                            <input type="hidden" name="id" value="{{this.id}}">
+                            <button class="btn btn-primary">Saber Más</button>
                         </form>
                     </td>
                 </tr>
@@ -63,7 +72,7 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
     <script src="../assets/js/script.js"></script>
-   
+
 </body>
 
 </html>
